@@ -13,7 +13,7 @@ class AppDrawerScreen extends StatelessWidget {
     final w = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      width: w * 0.6,
+      width: w * 0.7,
       child: Drawer(
         elevation: 5,
         child: Column(
@@ -140,7 +140,7 @@ class AppDrawerScreen extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     switch (val) {
       case 5:
-        homeProvider.setSelectedIndex(3);
+        homeProvider.setSelectedIndex(7);
         break;
       default:
     }

@@ -1,15 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:green_go/components/styles/app_style.dart';
 import 'package:green_go/core/provider/home_provider.dart';
 import 'package:green_go/screens/drawer/app_drawer.dart';
 import 'package:green_go/screens/profile/profile_screen.dart';
+import 'package:green_go/screens/search/search_screen.dart';
 import 'package:green_go/screens/settings/settings_screen.dart';
 import 'package:green_go/screens/support/support_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'carts/cart_screen.dart';
 import 'category/category_screen.dart';
+import 'create/create_product.dart';
+import 'favorite/favorite_lists_screen.dart';
 import 'home/home_screen.dart';
+import 'home/single_home.dart';
+import 'home/single_product.dart';
 
 class IndexScreen extends StatefulWidget {
   IndexScreen({Key key}) : super(key: key);
@@ -21,23 +29,37 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  List<Widget> _childrenScreen = [
-    HomeScreen(),
-    ProfileScreen(),
-    SettingsScreen(),
+  final List<Widget> _childrenScreen = [
+    HomeScreen(), //0
     CategoryScreen(),
+    HomeScreen(),
+    FavoriteListScreen(),
+    CartScreen(),
+    SearchScreen(),
+    SingleProductScreen(),
+    SingleHomeScreen(),
+    CreateProductScreen(),
+    FavoriteListScreen(),
+    SettingsScreen(),
     SupportScreen(),
-    ProfileScreen(),
+    SearchScreen(),
     ProfileScreen(),
     ProfileScreen(),
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final homeProvder = Provider.of<HomeProvider>(context);
 
+    log("${homeProvder.getSelectedIndex}");
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomPadding: true,
         key: _scaffoldKey,
         appBar: AppBar(
           elevation: 10,
@@ -77,7 +99,9 @@ class _IndexScreenState extends State<IndexScreen> {
                 color: Colors.black,
                 size: 35,
               ),
-              onPressed: () {},
+              onPressed: () {
+                homeProvder.setSelectedIndex(6);
+              },
             )
           ],
         ),
@@ -100,7 +124,9 @@ class _IndexScreenState extends State<IndexScreen> {
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
           showSelectedLabels: true,
-          currentIndex: homeProvder.getSelectedIndex,
+          currentIndex: homeProvder.getSelectedIndex <= 4
+              ? homeProvder.getSelectedIndex
+              : 0,
           selectedItemColor: AppStyle.colorPurple,
           unselectedLabelStyle: TextStyle(
             fontSize: 11,
@@ -119,9 +145,11 @@ class _IndexScreenState extends State<IndexScreen> {
                 width: 6.0.w,
                 child: SvgPicture.asset(
                   'assets/images/svg/home.svg',
-                  color: homeProvder.getSelectedIndex == 0
-                      ? AppStyle.colorPurple
-                      : null,
+                  color: homeProvder.getSelectedIndex <= 4
+                      ? homeProvder.getSelectedIndex == 0
+                          ? AppStyle.colorPurple
+                          : null
+                      : AppStyle.colorPurple,
                 ),
               ),
               label: 'Главная',

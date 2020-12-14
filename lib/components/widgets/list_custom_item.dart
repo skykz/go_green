@@ -18,8 +18,8 @@ class ListCustomItem extends StatelessWidget {
       onTap: this.onTapped,
       child: Padding(
         padding: EdgeInsets.only(
-          top: 6.0.sp,
-          bottom: 6.0.sp,
+          top: 8.0.sp,
+          bottom: 8.0.sp,
           left: 3.0.w,
         ),
         child: Row(

@@ -10,19 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<BaseProvider>(
-            create: (context) => BaseProvider(),
-          ),
-          ChangeNotifierProvider<HomeProvider>(
-            create: (context) => HomeProvider(),
-          ),
-        ],
-        child: LayoutBuilder(//return LayoutBuilder
-            builder: (context, constraints) {
-          return OrientationBuilder(//return OrientationBuilder
-              builder: (context, orientation) {
-            SizerUtil().init(constraints, orientation); //initialize SizerUtil
+      providers: [
+        ChangeNotifierProvider<BaseProvider>(
+          create: (context) => BaseProvider(),
+        ),
+        ChangeNotifierProvider<HomeProvider>(
+          create: (context) => HomeProvider(),
+        ),
+      ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return OrientationBuilder(builder: (context, orientation) {
+            SizerUtil().init(constraints, orientation);
             return MaterialApp(
               theme: ThemeData(
                 visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,6 +29,8 @@ class MyApp extends StatelessWidget {
               home: IndexScreen(),
             );
           });
-        }));
+        },
+      ),
+    );
   }
 }

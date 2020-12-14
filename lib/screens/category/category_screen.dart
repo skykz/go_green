@@ -12,13 +12,16 @@ class CategoryScreen extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Padding(
+          Container(
+            color: Colors.white,
             padding: const EdgeInsets.all(25),
-            child: Text(
-              this.isStore ? "Магазин" : "Категории",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17.0.sp,
+            child: Center(
+              child: Text(
+                this.isStore ? "Магазин" : "КАТЕГОРИИ",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16.0.sp,
+                ),
               ),
             ),
           ),
@@ -32,6 +35,7 @@ class CategoryScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25, vertical: 10),
                     child: CardLongWidget(
+                      onTap: () {},
                       title: "$index categoryName",
                     ),
                   ),
