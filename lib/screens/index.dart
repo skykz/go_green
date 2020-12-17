@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:green_go/components/styles/app_style.dart';
+import 'package:green_go/core/data/dialog_type.dart';
 import 'package:green_go/core/provider/home_provider.dart';
 import 'package:green_go/screens/drawer/app_drawer.dart';
+import 'package:green_go/screens/partners/info_partners_screen.dart';
 import 'package:green_go/screens/profile/profile_screen.dart';
 import 'package:green_go/screens/search/search_screen.dart';
 import 'package:green_go/screens/settings/settings_screen.dart';
 import 'package:green_go/screens/support/support_screen.dart';
+import 'package:green_go/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'carts/cart_screen.dart';
@@ -35,20 +38,25 @@ class _IndexScreenState extends State<IndexScreen> {
     HomeScreen(),
     FavoriteListScreen(),
     CartScreen(),
+    // for other screens
+    ProfileScreen(),
+    CreateProductScreen(),
     SearchScreen(),
+
     SingleProductScreen(),
     SingleHomeScreen(),
-    CreateProductScreen(),
     FavoriteListScreen(),
     SettingsScreen(),
     SupportScreen(),
-    SearchScreen(),
-    ProfileScreen(),
-    ProfileScreen(),
+    InfoPartnersScreen(),
   ];
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((val) {
+      displayCustomDialog(
+          context, '_title', DialogType.AddressType, true, () {});
+    });
     super.initState();
   }
 
@@ -100,7 +108,7 @@ class _IndexScreenState extends State<IndexScreen> {
                 size: 35,
               ),
               onPressed: () {
-                homeProvder.setSelectedIndex(6);
+                homeProvder.setSelectedIndex(7);
               },
             )
           ],
@@ -111,7 +119,9 @@ class _IndexScreenState extends State<IndexScreen> {
         floatingActionButton: FloatingActionButton(
           elevation: 3,
           backgroundColor: AppStyle.colorPurple,
-          onPressed: () {},
+          onPressed: () {
+            homeProvder.setSelectedIndex(6);
+          },
           child: Center(
             child: const Icon(
               Icons.add_rounded,

@@ -24,10 +24,11 @@ class _SupportScreenState extends State<SupportScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                "Помощь",
+                "ПОМОЩЬ",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 17.0.sp,
+                  fontSize: 15.0.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),

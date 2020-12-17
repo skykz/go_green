@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:green_go/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,8 +17,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
   final _textSearcTextController = TextEditingController();
   final _textSearcTextController1 = TextEditingController();
   final _textSearcTextController2 = TextEditingController();
-  List<PickedFile> _imageFile;
-  dynamic _pickImageError;
+  List<PickedFile> _imageFile = List();
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -27,73 +28,81 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-              child: InkWell(
-                onTap: () => _onImageButtonPressed(ImageSource.camera),
-                borderRadius: BorderRadius.circular(10),
-                child: Ink(
-                  height: 30.0.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[300],
-                          blurRadius: 10,
-                          offset: Offset(0, 7),
-                        )
-                      ]),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Icon(
-                            Icons.add_a_photo_outlined,
-                            color: Colors.black,
-                            size: 30.0.sp,
+              child: Builder(
+                builder: (ctx) => InkWell(
+                  onTap: () => _onImageButtonPressed(ImageSource.camera, ctx),
+                  borderRadius: BorderRadius.circular(10),
+                  child: Ink(
+                    height: 25.0.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            blurRadius: 10,
+                            offset: Offset(0, 7),
+                          )
+                        ]),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Icon(
+                              Icons.add_a_photo_outlined,
+                              color: Colors.black,
+                              size: 30.0.sp,
+                            ),
                           ),
-                        ),
-                        Text(
-                          'Добавьте изображения',
-                          style: TextStyle(
-                            fontSize: 11.0.sp,
+                          Text(
+                            'Добавьте изображения',
+                            style: TextStyle(
+                              fontSize: 11.0.sp,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 20.0.h,
-              child: ListView.builder(
-                itemCount: 3,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: Center(
-                      child: Container(
-                        height: 14.0.h,
-                        width: 25.0.w,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Image.file(
-                          File(_imageFile[index].path),
-                        ),
-                      ),
+            this._imageFile.isEmpty
+                ? const SizedBox()
+                : SizedBox(
+                    height: 20.0.h,
+                    child: ListView.builder(
+                      itemCount: this._imageFile.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 5),
+                          child: Center(
+                            child: Container(
+                              height: 14.0.h,
+                              width: 25.0.w,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  File(_imageFile[index].path),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
@@ -265,20 +274,23 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     );
   }
 
-  void _onImageButtonPressed(ImageSource source) async {
-    Navigator.pop(context);
-    try {
-      final pickedFile = await _picker.getImage(
-        source: source,
-        imageQuality: 100,
+  void _onImageButtonPressed(ImageSource source, BuildContext ctx) async {
+    final _pickedFile = await _picker.getImage(
+      source: source,
+      imageQuality: 100,
+    );
+    inspect(_pickedFile);
+    if (_pickedFile != null) {
+      setState(() {
+        _imageFile.add(_pickedFile);
+      });
+    } else {
+      showCustomSnackBar(
+        ctx,
+        'Изображение не выбрано!',
+        Colors.red,
+        Icons.error_outline_rounded,
       );
-      setState(() {
-        _imageFile.add(pickedFile);
-      });
-    } catch (e) {
-      setState(() {
-        _pickImageError = e;
-      });
     }
   }
 }

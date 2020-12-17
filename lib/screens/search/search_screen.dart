@@ -51,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     fontSize: 14,
                     color: Colors.grey[400],
                   ),
-                  hintText: 'Попробуйте \'Лондон\'',
+                  hintText: 'Попробуйте \'Розы\'',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     gapPadding: 4,
@@ -202,7 +202,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                               ),
                                               itemCount: 5,
                                               unratedColor: Colors.grey[300],
-                                              itemSize: 30.0.sp,
+                                              itemSize: 17.0.sp,
                                               direction: Axis.horizontal,
                                             ),
                                           ],

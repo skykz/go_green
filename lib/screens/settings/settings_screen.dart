@@ -20,7 +20,8 @@ class SettingsScreen extends StatelessWidget {
                     "Настройки",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 17.0.sp,
+                      fontSize: 15.0.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
